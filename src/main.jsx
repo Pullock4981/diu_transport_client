@@ -6,11 +6,15 @@ import {
   RouterProvider,
 } from "react-router";
 import router from './rauter/rauter.jsx';
+import { APIProvider } from '@vis.gl/react-google-maps';
+import { googleMapAPIKey } from './map-api-key.js';
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <APIProvider apiKey={googleMapAPIKey}>
+      <RouterProvider router={router} />
+    </APIProvider>
   </StrictMode>,
 )
