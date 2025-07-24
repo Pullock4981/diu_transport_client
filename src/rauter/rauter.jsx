@@ -3,6 +3,8 @@ import RootLayout from "../layouts/RootLayout";
 import Home from "../Pages/Home/Home";
 import TransportSchedule from "../Pages/TransportSchedule/TransportSchedule";
 import FindLocation from "../Pages/FindLocation/FindLocation";
+import Login from "../shared/Login/Login";
+import Register from "../shared/Register/Register";
 
 const router = createBrowserRouter([
     {
@@ -14,12 +16,20 @@ const router = createBrowserRouter([
                 Component: Home
             },
             {
-                path: "transportSchedule",
+                path: "/transportSchedule",
                 Component: TransportSchedule
             },
             {
-                path: "transportLocation",
+                path: "/transportLocation",
                 Component: FindLocation
+            },
+            {
+                path: "/login",
+                Component: Login
+            },
+            {
+                path: "/register",
+                Component: Register
             }
         ]
     },
