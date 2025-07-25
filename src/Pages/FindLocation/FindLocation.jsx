@@ -23,9 +23,9 @@ const FindLocation = () => {
                         className="px-4 py-2 border rounded-lg"
                     >
                         <option value="All">All Routes</option>
-                        <option value="Route A">Route A</option>
-                        <option value="Route B">Route B</option>
-                        <option value="Route C">Route C</option>
+                        <option value="DSC - Dhanmondi">DSC - Dhanmondi</option>
+                        <option value="DSC - Uttora">DSC - Uttora</option>
+                        <option value="DSC - Mirpur">DSC - Mirpur</option>
                     </select>
 
                     <input

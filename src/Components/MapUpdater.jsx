@@ -5,7 +5,7 @@ const MapUpdater = ({ center }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, 14);  // center and zoom change
+    map.setView(center, 14);  
   }, [center, map]);
 
   return null;

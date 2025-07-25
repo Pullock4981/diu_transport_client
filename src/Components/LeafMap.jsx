@@ -7,27 +7,44 @@ import "leaflet/dist/leaflet.css";
 import MapUpdater from "./MapUpdater";
 
 const LeafletMap = ({ selectedRoute, searchQuery }) => {
-  const buses = [
-    { id: 1, route: "Route A", busName: "Surjomukhi", busNumber: "12", position: [23.874, 90.320], status: "On Time" },
-    { id: 2, route: "Route A", busName: "Surjomukhi", busNumber: "19", position: [23.878, 90.325], status: "On Time" },
-    { id: 3, route: "Route B", busName: "D Link", busNumber: "B-201", position: [23.749893, 90.379015], status: "5 min late" },
-    { id: 4, route: "Route C", busName: "Rojonigondha", busNumber: "C-301", position: [23.870, 90.315], status: "Delayed" },
-  ];
+const buses = [
+  { id: 1, route: "DSC - Dhanmondi", busName: "Surjomukhi", busNumber: "12", position: [23.780399, 90.354244], status: "On Time" },
+  { id: 2, route: "DSC - Dhanmondi", busName: "Surjomukhi", busNumber: "19", position: [23.774667, 90.365644], status: "On Time" },
+  { id: 3, route: "DSC - Uttora", busName: "D Link", busNumber: "10", position: [23.874189, 90.385496], status: "5 min late" },
+  { id: 4, route: "DSC - Mirpur", busName: "Rojonigondha", busNumber: "6", position: [23.796957, 90.350486], status: "Delayed" },
+
+];
+
 
   // Filter by route + search
   const filteredBuses = useMemo(() => {
     let result = selectedRoute === "All" ? buses : buses.filter(b => b.route === selectedRoute);
-    if (searchQuery) {
-      result = result.filter(b =>
-        b.busName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        b.busNumber.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+
+    if (searchQuery.trim()) {
+      const parts = searchQuery.trim().split(" ");
+      const namePart = parts[0];
+      const numberPart = parts[1];
+
+      if (numberPart) {
+        // Exact busName + busNumber
+        result = result.filter(
+          b =>
+            b.busName.toLowerCase() === namePart.toLowerCase() &&
+            b.busNumber === numberPart
+        );
+      } else {
+        // Only by name
+        result = result.filter(b =>
+          b.busName.toLowerCase().includes(namePart.toLowerCase())
+        );
+      }
     }
     return result;
   }, [selectedRoute, searchQuery]);
 
+
   // center map to first bus
-  const mapCenter = filteredBuses.length > 0 ? filteredBuses[0].position : [23.874, 90.320];
+  const mapCenter = filteredBuses.length > 0 ? filteredBuses[0].position : [23.780399, 90.354244];
 
   const iconMarkup = renderToStaticMarkup(<FaBus size={28} color="#16a34a" />);
   const busIcon = L.divIcon({ html: iconMarkup, className: "", iconSize: [28, 28], iconAnchor: [14, 14] });
