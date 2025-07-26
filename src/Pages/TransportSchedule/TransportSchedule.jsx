@@ -1,29 +1,3 @@
-// import React from 'react';
-// import RouteMap from '../../Components/RouteMap';
-
-// const TransportSchedule = () => {
-//     const routeA = [
-//         [23.874, 90.320],
-//         [23.870, 90.325],
-//         [23.860, 90.330],
-//         [23.855, 90.340],
-//         [23.750, 90.380],
-//     ];
-//     return (
-//         <div className='max-w-screen-xl mx-auto '>
-//             <h1 className='text-3xl font-bold text-center my-8'>
-//                 Regular Transport Schedule
-//             </h1>
-//             <RouteMap routeCoordinates={routeA}></RouteMap>
-//         </div>
-//     );
-// };
-
-// export default TransportSchedule;
-
-
-
-
 import React, { useState } from "react";
 import RouteMap from '../../Components/RouteMap';
 
