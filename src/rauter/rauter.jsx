@@ -5,6 +5,8 @@ import TransportSchedule from "../Pages/TransportSchedule/TransportSchedule";
 import FindLocation from "../Pages/FindLocation/FindLocation";
 import Login from "../shared/Login/Login";
 import Register from "../shared/Register/Register";
+import BorrowBus from "../Pages/BorrowBus/BorrowBus";
+
 
 const router = createBrowserRouter([
     {
@@ -30,7 +32,12 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 Component: Register
+            },
+            {
+                path: "/borrow-bus",
+                Component: BorrowBus
             }
+
         ]
     },
 ]);
