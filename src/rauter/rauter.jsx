@@ -6,6 +6,7 @@ import FindLocation from "../Pages/FindLocation/FindLocation";
 import Login from "../shared/Login/Login";
 import Register from "../shared/Register/Register";
 import BorrowBus from "../Pages/BorrowBus/BorrowBus";
+import Notice from "../Pages/Notice/Notice";
 
 
 const router = createBrowserRouter([
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
             {
                 path: "/borrow-bus",
                 Component: BorrowBus
+            },
+            {
+                path: "/notice",
+                Component: Notice
             }
 
         ]
