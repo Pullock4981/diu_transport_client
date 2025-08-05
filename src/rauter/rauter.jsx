@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
+import Dashboard from "../layouts/Dashboard";
 import Home from "../Pages/Home/Home";
 import TransportSchedule from "../Pages/TransportSchedule/TransportSchedule";
 import FindLocation from "../Pages/FindLocation/FindLocation";
@@ -7,6 +8,10 @@ import Login from "../shared/Login/Login";
 import Register from "../shared/Register/Register";
 import BorrowBus from "../Pages/BorrowBus/BorrowBus";
 import Notice from "../Pages/Notice/Notice";
+import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
+import Schedules from "../Pages/Dashboard/Schedules/Schedules";
+import BusApplications from "../Pages/Dashboard/BusApplications/BusApplications";
+import Users from "../Pages/Dashboard/Users/Users";
 
 
 const router = createBrowserRouter([
@@ -42,9 +47,58 @@ const router = createBrowserRouter([
                 path: "/notice",
                 Component: Notice
             }
-
         ]
     },
+    {
+        path: "/dashboard",
+        Component: Dashboard,
+        // To Do : here Admin Dashboard and user dashboard will be separated
+        children: [
+            {
+                index: true,
+                // path: "adminhome",
+                Component: AdminHome
+            },
+            {
+                path: "schedule",
+                Component: Schedules
+            },
+            {
+
+                path: "transportLocation",
+                Component: FindLocation
+
+            },
+            {
+                path: "transportSchedule",
+                Component: TransportSchedule
+            },
+            {
+                path: "applications",
+                Component: BusApplications
+            },
+            {
+                path: "users",
+                Component: Users
+            },
+            {
+                path: "analytics",
+                element: <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
+            },
+            {
+                path: "notices",
+                element: <h2 className="text-2xl font-bold">Notice Management</h2>
+            },
+            {
+                path: "profile",
+                element: <h2 className="text-2xl font-bold">User Profile</h2>
+            },
+            {
+                path: "settings",
+                element: <h2 className="text-2xl font-bold">System Settings</h2>
+            }
+        ]
+    }
 ]);
 
 export default router;
