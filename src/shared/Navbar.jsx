@@ -1,19 +1,21 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router';
-import logo from '../assets/logo.png';
 import Logo from './Logo/Logo';
+import './navbar.css';
 
 const Navbar = () => {
 
     // nav links
     const navLinks = <>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/transportSchedule">Transport Schedule</NavLink></li>
-        <li><NavLink to="/transportLocation">Find Location</NavLink></li>
-        <li><NavLink to="/borrow-bus">Apply for Bus</NavLink></li>
-        <li><NavLink to="/notice">Notice</NavLink></li>
-        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-        
+        <div className='flex md:flex-row flex-col gap-4'>
+            <li><NavLink to="/">Home</NavLink></li>
+            <li><NavLink to="/transportSchedule">Transport Schedule</NavLink></li>
+            <li><NavLink to="/transportLocation">Find Location</NavLink></li>
+            <li><NavLink to="/borrow-bus">Apply for Bus</NavLink></li>
+            <li><NavLink to="/notice">Notice</NavLink></li>
+            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+        </div>
+
     </>
     return (
         <div className="bg-base-100 shadow-sm sticky top-0 z-50">
@@ -31,7 +33,7 @@ const Navbar = () => {
                             }
                         </ul>
                     </div>
-                    
+
                     <Logo></Logo>
                 </div>
                 <div className="navbar-center hidden lg:flex">
