@@ -17,6 +17,7 @@ import {
     FaClipboardList
 } from 'react-icons/fa';
 import logo from '../assets/logo.png';
+import Logo from '../shared/Logo/Logo';
 
 const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -120,8 +121,7 @@ const Dashboard = () => {
                 {/* Sidebar Header */}
                 <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
                     <div className="flex items-center">
-                        <img src={logo} alt="DIU Transport" className="h-8 w-auto" />
-                        <span className="ml-3 text-lg font-semibold text-gray-800">Dashboard</span>
+                        <Logo></Logo>
                     </div>
                     <button
                         onClick={toggleSidebar}
