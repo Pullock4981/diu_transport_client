@@ -1,153 +1,97 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../../Context/AuthContext";
+
+
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
-    validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Must be at least 6 characters').required('Required')
-    }),
-    onSubmit: async (values) => {
-      setIsLoading(true);
-      try {
-        console.log("Logging in with:", values);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  });
+  const { logInUser, googleSignIn } = useContext(AuthContext);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    logInUser(email, password)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+
+        form.reset();
+        navigate(location?.state || '/');
+      })
+      .catch(error => {
+        console.error(error.message);
+      });
+
+
+  };
+
+  const handleLoginkWithGoogle = () => {
+    googleSignIn()
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+        navigate(location?.state || '/');
+      })
+      .catch(error => {
+        console.error(error.message);
+      });
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-8">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center">
-              <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-            </div>
-          </div>
-          
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Welcome back</h2>
-          <p className="text-sm text-center text-gray-500 mb-6">Enter your credentials to access your account</p>
-          
-          <form onSubmit={formik.handleSubmit} className="space-y-4">
+    <div className="flex justify-center items-center py-10 px-4">
+      <div className="card bg-base-100 w-full max-w-sm shadow-xl">
+        <div className="card-body">
+          <h1 className="text-3xl font-bold text-center mb-6">Login Now</h1>
+          <form onSubmit={handleLogin} className="form-control w-full space-y-3">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="your@email.com"
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${formik.touched.email && formik.errors.email ? 'border-red-500' : 'border-gray-300'}`}
-              />
-              {formik.touched.email && formik.errors.email ? (
-                <p className="mt-1 text-sm text-red-600">{formik.errors.email}</p>
-              ) : null}
+              <label className="label font-medium">Email</label>
+              <input type="email" name="email" required placeholder="Enter your email" className="input border border-[#8A4771] w-full" />
             </div>
-            
+
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="••••••••"
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-gray-300'}`}
-              />
-              {formik.touched.password && formik.errors.password ? (
-                <p className="mt-1 text-sm text-red-600">{formik.errors.password}</p>
-              ) : null}
+              <label className="label font-medium">Password</label>
+              <input type="password" name="password" required placeholder="Enter your password" className="input border border-[#8A4771] w-full" />
             </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                  Remember me
-                </label>
-              </div>
-              
-              <div className="text-sm">
-                <a href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot password?
-                </a>
-              </div>
+
+            <div className="text-right">
+              <a href="#" className="text-sm text-red-500 hover:underline">Forgot password?</a>
             </div>
-            
+
             <button
               type="submit"
-              disabled={isLoading}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-            >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Signing in...
-                </>
-              ) : 'Sign in'}
+              // disabled={loading}
+              className="btn btn-block bg-white text-[#5F2DED] font-bold border border-[#5F2DED] hover:bg-[#5F2DED] hover:text-white transition duration-200">
+              Log In
             </button>
+
+            <p className="text-sm text-center">
+              New to this site?{" "}
+              <Link to="/register" className="text-[#5F2DED] font-semibold underline hover:no-underline">
+                Register here
+              </Link>
+            </p>
           </form>
-          
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
-              </div>
-            </div>
-            
-            <div className="mt-6 grid grid-cols-1 gap-3">
-              <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
-                <GoogleLogin
-                  onSuccess={credentialResponse => {
-                    console.log(credentialResponse);
-                  }}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                  useOneTap
-                  theme="filled_blue"
-                  size="large"
-                  width="100%"
-                />
-              </GoogleOAuthProvider>
-            </div>
-          </div>
-        </div>
-        
-        <div className="bg-gray-50 px-4 py-4 text-center">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <a href="/register" className="font-medium text-blue-600 hover:text-blue-500">
-              Sign up
-            </a>
-          </p>
+
+          <div className="divider">OR</div>
+
+          <button onClick={handleLoginkWithGoogle} className="btn btn-block bg-white text-black border border-[#e5e5e5] hover:shadow-md transition duration-200">
+            <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <g>
+                <path d="M0 0H512V512H0" fill="#fff" />
+                <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341" />
+                <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57" />
+                <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73" />
+                <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55" />
+              </g>
+            </svg>
+            <span className="ml-2">Login with Google</span>
+          </button>
         </div>
       </div>
     </div>
