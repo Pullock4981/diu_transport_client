@@ -65,8 +65,16 @@ const router = createBrowserRouter([
 
             },
             {
+                path: "notice",
+                Component: Notice
+            },
+            {
                 path: "transportSchedule",
                 Component: TransportSchedule
+            },
+            {
+                path: "applybus",
+                Component: BorrowBus
             },
 
             //admin only routes
@@ -74,6 +82,10 @@ const router = createBrowserRouter([
                 // index: true,
                 path: "adminhome",
                 Component: AdminHome
+            },
+            {
+                path: "busmanagement",
+                element: <h1>Bus Management</h1>
             },
             {
                 path: "schedule",

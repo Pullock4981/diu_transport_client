@@ -37,6 +37,12 @@ const Dashboard = () => {
             badge: null
         },
         {
+            name: 'Bus Management',
+            icon: <FaBus />,
+            path: '/dashboard/busmanagement',
+            badge: null
+        },
+        {
             name: 'Transport Schedule',
             icon: <FaCalendarAlt />,
             path: '/dashboard/schedule',
@@ -92,6 +98,18 @@ const Dashboard = () => {
             name: 'Bus Routes',
             icon: <FaRoute />,
             path: '/dashboard/transportSchedule',
+            badge: null
+        },
+        {
+            name: 'Notices',
+            icon: <FaBell />,
+            path: '/dashboard/notice',
+            badge: null
+        },
+        {
+            name: 'Apply For Bus',
+            icon: <FaBus />,
+            path: '/dashboard/applybus',
             badge: null
         },
     ];
