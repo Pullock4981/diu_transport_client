@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router';
-import { 
-    FaHome, 
-    FaBus, 
-    FaMapMarkedAlt, 
-    FaCalendarAlt, 
-    FaBell, 
-    FaUser, 
-    FaCog, 
+import {
+    FaHome,
+    FaBus,
+    FaMapMarkedAlt,
+    FaCalendarAlt,
+    FaBell,
+    FaUser,
+    FaCog,
     FaSignOutAlt,
     FaBars,
     FaTimes,
@@ -23,19 +23,70 @@ const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const location = useLocation();
 
+    // for testing admin panel or user panel. running isadmin = true we will make our first admin.
+    const isAdmin = true;
+    // const isAdmin = false;
+
+
     // Dashboard navigation items
-    const navItems = [
+
+    const adminNavItems = [
         {
-            name: 'Dashboard',
+            name: 'Home',
             icon: <FaHome />,
-            path: '/dashboard',
+            path: '/dashboard/adminhome',
             badge: null
         },
-        
+        {
+            name: 'Bus Management',
+            icon: <FaBus />,
+            path: '/dashboard/busmanagement',
+            badge: null
+        },
         {
             name: 'Transport Schedule',
             icon: <FaCalendarAlt />,
             path: '/dashboard/schedule',
+            badge: null
+        },
+        {
+            name: 'Live Tracking',
+            icon: <FaMapMarkedAlt />,
+            path: '/dashboard/transportLocation',
+            badge: 'Live'
+        },
+        {
+            name: 'Users',
+            icon: <FaUsers />,
+            path: '/dashboard/users',
+            badge: null
+        },
+        {
+            name: 'Bus Applications',
+            icon: <FaClipboardList />,
+            path: '/dashboard/applications',
+            badge: '3'
+        },
+        {
+            name: 'Analytics',
+            icon: <FaChartBar />,
+            path: '/dashboard/analytics',
+            badge: null
+        },
+        {
+            name: 'Notices',
+            icon: <FaBell />,
+            path: '/dashboard/notices',
+            badge: '5'
+        }
+
+    ];
+
+    const userNavItems = [
+        {
+            name: 'Home',
+            icon: <FaHome />,
+            path: '/dashboard/userhome',
             badge: null
         },
         {
@@ -51,30 +102,21 @@ const Dashboard = () => {
             badge: null
         },
         {
-            name: 'Bus Applications',
-            icon: <FaClipboardList />,
-            path: '/dashboard/applications',
-            badge: '3'
-        },
-        {
-            name: 'Users',
-            icon: <FaUsers />,
-            path: '/dashboard/users',
-            badge: null
-        },
-        {
-            name: 'Analytics',
-            icon: <FaChartBar />,
-            path: '/dashboard/analytics',
-            badge: null
-        },
-        {
             name: 'Notices',
             icon: <FaBell />,
-            path: '/dashboard/notices',
-            badge: '5'
-        }
+            path: '/dashboard/notice',
+            badge: null
+        },
+        {
+            name: 'Apply For Bus',
+            icon: <FaBus />,
+            path: '/dashboard/applybus',
+            badge: null
+        },
     ];
+
+    const navItems = isAdmin ? adminNavItems : userNavItems;
+ 
 
     // Quick stats data
     const quickStats = [
@@ -115,9 +157,8 @@ const Dashboard = () => {
     return (
         <div className="flex h-screen bg-gray-100">
             {/* Sidebar */}
-            <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
-                sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            } lg:translate-x-0 lg:static lg:inset-0`}>
+            <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                } lg:translate-x-0 lg:static lg:inset-0`}>
                 {/* Sidebar Header */}
                 <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
                     <div className="flex items-center">
@@ -139,23 +180,21 @@ const Dashboard = () => {
                                 key={item.name}
                                 to={item.path}
                                 className={({ isActive }) =>
-                                    `group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                                        isActive
-                                            ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    `group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${isActive
+                                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                     }`
                                 }
                             >
                                 <span className="mr-3 text-lg">{item.icon}</span>
                                 <span className="flex-1">{item.name}</span>
                                 {item.badge && (
-                                    <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${
-                                        item.badge === 'Live' 
-                                            ? 'bg-green-100 text-green-800' 
+                                    <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${item.badge === 'Live'
+                                            ? 'bg-green-100 text-green-800'
                                             : item.badge === '3' || item.badge === '5'
-                                            ? 'bg-red-100 text-red-800'
-                                            : 'bg-gray-100 text-gray-800'
-                                    }`}>
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-gray-100 text-gray-800'
+                                        }`}>
                                         {item.badge}
                                     </span>
                                 )}
@@ -210,15 +249,17 @@ const Dashboard = () => {
                         {/* Page Title */}
                         <div className="flex-1 lg:flex-none">
                             <h1 className="text-xl font-semibold text-gray-800">
-                                {location.pathname === '/dashboard' ? 'Dashboard Overview' : 
-                                 location.pathname.includes('schedule') ? 'Transport Schedule' :
-                                 location.pathname.includes('tracking') ? 'Live Tracking' :
-                                 location.pathname.includes('routes') ? 'Bus Routes' :
-                                 location.pathname.includes('applications') ? 'Bus Applications' :
-                                 location.pathname.includes('users') ? 'Users' :
-                                 location.pathname.includes('analytics') ? 'Analytics' :
-                                 location.pathname.includes('notices') ? 'Notices' :
-                                 'Dashboard'}
+                                {/* {isAdmin ? 'Admin Dashboard' : 'User Dashboard'} */}
+                                {location.pathname === '/dashboard/adminhome' ? 'Admin Dashboard' :
+                                  location.pathname === '/dashboard/userhome' ? 'User Dashboard':
+                                    location.pathname.includes('schedule') ? 'Transport Schedule' :
+                                        location.pathname.includes('tracking') ? 'Live Tracking' :
+                                            location.pathname.includes('routes') ? 'Bus Routes' :
+                                                location.pathname.includes('applications') ? 'Bus Applications' :
+                                                    location.pathname.includes('users') ? 'Users' :
+                                                        location.pathname.includes('analytics') ? 'Analytics' :
+                                                            location.pathname.includes('notices') ? 'Notices' :
+                                                                'Dashboard'}
                             </h1>
                         </div>
 
@@ -247,7 +288,7 @@ const Dashboard = () => {
                 {/* Main Content Area */}
                 <main className="flex-1 overflow-y-auto">
                     {/* Quick Stats - Only show on dashboard overview */}
-                    {location.pathname === '/dashboard' && (
+                    {location.pathname === '/dashboard/adminhome' && (
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                                 {quickStats.map((stat, index) => (
@@ -257,9 +298,8 @@ const Dashboard = () => {
                                                 <p className="text-sm font-medium text-gray-600">{stat.title}</p>
                                                 <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
                                                 <div className="flex items-center mt-1">
-                                                    <span className={`text-xs font-medium ${
-                                                        stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-                                                    }`}>
+                                                    <span className={`text-xs font-medium ${stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
+                                                        }`}>
                                                         {stat.change}
                                                     </span>
                                                     <span className="text-xs text-gray-500 ml-1">from last month</span>

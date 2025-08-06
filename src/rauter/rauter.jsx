@@ -52,16 +52,11 @@ const router = createBrowserRouter([
     {
         path: "/dashboard",
         Component: Dashboard,
-        // To Do : here Admin Dashboard and user dashboard will be separated
         children: [
+            //normal user routes
             {
-                index: true,
-                // path: "adminhome",
-                Component: AdminHome
-            },
-            {
-                path: "schedule",
-                Component: Schedules
+                path: "userhome",
+                element: <h1>User HOme</h1>
             },
             {
 
@@ -70,9 +65,32 @@ const router = createBrowserRouter([
 
             },
             {
+                path: "notice",
+                Component: Notice
+            },
+            {
                 path: "transportSchedule",
                 Component: TransportSchedule
             },
+            {
+                path: "applybus",
+                Component: BorrowBus
+            },
+
+            //admin only routes
+            {
+                // index: true,
+                path: "adminhome",
+                Component: AdminHome
+            },
+            {
+                path: "busmanagement",
+                element: <h1>Bus Management</h1>
+            },
+            {
+                path: "schedule",
+                Component: Schedules
+            },         
             {
                 path: "applications",
                 Component: BusApplications
@@ -89,6 +107,8 @@ const router = createBrowserRouter([
                 path: "notices",
                 element: <h2 className="text-2xl font-bold">Notice Management</h2>
             },
+
+            // shared routes(this will be shown in any users dashboard)
             {
                 path: "profile",
                 element: <h2 className="text-2xl font-bold">User Profile</h2>
