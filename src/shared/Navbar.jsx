@@ -1,6 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import logo from '../assets/logo.png';
+import Logo from './Logo/Logo';
 
 const Navbar = () => {
 
@@ -15,7 +16,7 @@ const Navbar = () => {
         
     </>
     return (
-        <div className="bg-base-100 shadow-sm">
+        <div className="bg-base-100 shadow-sm sticky top-0 z-50">
             <div className='navbar max-w-screen-xl mx-auto'>
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -30,7 +31,8 @@ const Navbar = () => {
                             }
                         </ul>
                     </div>
-                    <img className='w-30' src={logo} alt="" />
+                    
+                    <Logo></Logo>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
