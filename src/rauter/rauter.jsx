@@ -14,6 +14,7 @@ import BusApplications from "../Pages/Dashboard/BusApplications/BusApplications"
 import Users from "../Pages/Dashboard/Users/Users";
 import UserHome from "../Pages/UserHome/UserHome";
 import MyAppliedBus from "../Pages/Dashboard/MyAppliedBus/MyAppliedBus";
+import AddNotice from "../Pages/AddNotice/AddNotice";
 
 // Optional: a generic error component
 const ErrorPage = () => (
@@ -60,8 +61,8 @@ const router = createBrowserRouter([
             { path: "schedule", element: <Schedules /> },
             { path: "applications", element: <BusApplications /> },
             { path: "users", element: <Users /> },
-            { path: "analytics", element: <h2 className="text-2xl font-bold">Analytics Dashboard</h2> },
-            { path: "notices", element: <h2 className="text-2xl font-bold">Notice Management</h2> },
+            // { path: "analytics", element: <h2 className="text-2xl font-bold">Analytics Dashboard</h2> },
+            { path: "notices", element: <AddNotice></AddNotice> },
 
             // Shared routes
             { path: "profile", element: <h2 className="text-2xl font-bold">User Profile</h2> },
