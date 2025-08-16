@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import Dashboard from "../layouts/Dashboard";
 import Home from "../Pages/Home/Home";
@@ -15,116 +15,58 @@ import Users from "../Pages/Dashboard/Users/Users";
 import UserHome from "../Pages/UserHome/UserHome";
 import MyAppliedBus from "../Pages/Dashboard/MyAppliedBus/MyAppliedBus";
 
+// Optional: a generic error component
+const ErrorPage = () => (
+    <div className="p-6 text-center">
+        <h1 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h1>
+        <p className="text-gray-600">The page you are looking for does not exist or an error occurred.</p>
+    </div>
+);
 
 const router = createBrowserRouter([
     {
         path: "/",
-        Component: RootLayout,
+        element: <RootLayout />,
+        errorElement: <ErrorPage />,
         children: [
-            {
-                index: true,
-                Component: Home
-            },
-            {
-                path: "/transportSchedule",
-                Component: TransportSchedule
-            },
-            {
-                path: "/transportLocation",
-                Component: FindLocation
-            },
-            {
-                path: "/login",
-                Component: Login
-            },
-            {
-                path: "/register",
-                Component: Register
-            },
-            {
-                path: "/borrow-bus",
-                Component: BorrowBus
-            },
-
-            {
-                path: "/notice",
-                Component: Notice
-            }
-        ]
+            { index: true, element: <Home /> },
+            { path: "transportSchedule", element: <TransportSchedule /> },
+            { path: "transportLocation", element: <FindLocation /> },
+            { path: "login", element: <Login /> },
+            { path: "register", element: <Register /> },
+            { path: "borrow-bus", element: <BorrowBus /> },
+            { path: "notice", element: <Notice /> },
+        ],
     },
     {
         path: "/dashboard",
-        Component: Dashboard,
+        element: <Dashboard />,
+        errorElement: <ErrorPage />,
         children: [
-            //normal user routes
-            {
-                path: "userhome",
-                element: UserHome
-            },
-            {
+            // ✅ Index route for /dashboard
+            { index: true, element: <Navigate to="/dashboard/userhome" replace /> },
 
-                path: "transportLocation",
-                Component: FindLocation
+            // User routes
+            { path: "userhome", element: <UserHome /> },
+            { path: "transportLocation", element: <FindLocation /> },
+            { path: "notice", element: <Notice /> },
+            { path: "transportSchedule", element: <TransportSchedule /> },
+            { path: "applybus", element: <BorrowBus /> },
+            { path: "myAppliedBus", element: <MyAppliedBus /> },
 
-            },
-            {
-                path: "notice",
-                Component: Notice
-            },
-            {
-                path: "transportSchedule",
-                Component: TransportSchedule
-            },
-            {
-                path: "applybus",
-                Component: BorrowBus
-            },
-            {
-                path: "myAppliedBus",
-                Component: MyAppliedBus
-            },
+            // Admin routes
+            { path: "adminhome", element: <AdminHome /> },
+            { path: "busmanagement", element: <h1>Bus Management</h1> },
+            { path: "schedule", element: <Schedules /> },
+            { path: "applications", element: <BusApplications /> },
+            { path: "users", element: <Users /> },
+            { path: "analytics", element: <h2 className="text-2xl font-bold">Analytics Dashboard</h2> },
+            { path: "notices", element: <h2 className="text-2xl font-bold">Notice Management</h2> },
 
-            //admin only routes
-            {
-                // index: true,
-                path: "adminhome",
-                Component: AdminHome
-            },
-            {
-                path: "busmanagement",
-                element: <h1>Bus Management</h1>
-            },
-            {
-                path: "schedule",
-                Component: Schedules
-            },
-            {
-                path: "applications",
-                Component: BusApplications
-            },
-            {
-                path: "users",
-                Component: Users
-            },
-            {
-                path: "analytics",
-                element: <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
-            },
-            {
-                path: "notices",
-                element: <h2 className="text-2xl font-bold">Notice Management</h2>
-            },
-
-            // shared routes(this will be shown in any users dashboard)
-            {
-                path: "profile",
-                element: <h2 className="text-2xl font-bold">User Profile</h2>
-            },
-            {
-                path: "settings",
-                element: <h2 className="text-2xl font-bold">System Settings</h2>
-            }
-        ]
+            // Shared routes
+            { path: "profile", element: <h2 className="text-2xl font-bold">User Profile</h2> },
+            { path: "settings", element: <h2 className="text-2xl font-bold">System Settings</h2> },
+        ],
     }
 ]);
 

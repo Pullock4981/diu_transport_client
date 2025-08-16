@@ -1,49 +1,93 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import {
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut
+} from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../Firebase/firebase.init';
 import { AuthContext } from './AuthContext';
 
+// 👇 change this to match your backend API base URL
+const BACKEND_URL = "http://localhost:5000";
+
 const googleProvider = new GoogleAuthProvider();
 
 const FirebaseAutheContext = ({ children }) => {
-
     const [user, setUser] = useState(null);
     const [role, setRole] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // create user
+    // Create user
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     };
 
-    //google sign in
+    // Google sign in
     const googleSignIn = () => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider);
     };
 
-    // log in user
+    // Log in user
     const logInUser = (email, password) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     };
 
-    // log out user
+    // Log out user
     const SignOutUser = () => {
         setLoading(true);
-        // setUser(null);
         setRole(null);
         return signOut(auth);
     };
 
-    // for monitor
+    // Save or update user in backend without overwriting role
+    const saveUserToBackend = async (currentUser) => {
+        const { displayName, email, photoURL } = currentUser;
+        try {
+            await fetch(`${BACKEND_URL}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: displayName, email, photoURL }) // no role sent
+            });
+            console.log("✅ User saved to backend:", email);
+        } catch (err) {
+            console.error('❌ Error saving user to backend:', err);
+        }
+    };
+
+    // Fetch user role from backend
+    const fetchUserRole = async (email) => {
+        try {
+            const res = await fetch(`${BACKEND_URL}/users/${email}`);
+            const data = await res.json();
+            console.log("🔑 Backend role response:", data);
+
+            if (data?.success && data?.user?.role) {
+                setRole(data.user.role);   // ✅ admin or user
+                console.log("✅ Role set to:", data.user.role);
+            } else {
+                setRole('user'); // fallback
+                console.warn("⚠️ No role found in DB. Defaulting to 'user'");
+            }
+        } catch (err) {
+            console.error('❌ Error fetching user role:', err);
+            setRole('user');
+        }
+    };
+
+    // Monitor auth state
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            setLoading(true);
             if (currentUser) {
                 setUser(currentUser);
-                saveUserToBackend(currentUser);
-                fetchUserRole(currentUser.email);
+                await saveUserToBackend(currentUser);
+                await fetchUserRole(currentUser.email);
             } else {
                 setUser(null);
                 setRole(null);
@@ -54,7 +98,6 @@ const FirebaseAutheContext = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    // pass as child
     const authInfo = {
         user,
         role,
