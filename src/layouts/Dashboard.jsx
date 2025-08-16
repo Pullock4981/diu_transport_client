@@ -16,7 +16,6 @@ import {
     FaRoute,
     FaClipboardList
 } from 'react-icons/fa';
-import logo from '../assets/logo.png';
 import Logo from '../shared/Logo/Logo';
 
 const Dashboard = () => {
@@ -24,8 +23,8 @@ const Dashboard = () => {
     const location = useLocation();
 
     // for testing admin panel or user panel. running isadmin = true we will make our first admin.
-    const isAdmin = true;
-    // const isAdmin = false;
+    // const isAdmin = true;
+    const isAdmin = false;
 
 
     // Dashboard navigation items
@@ -111,6 +110,12 @@ const Dashboard = () => {
             name: 'Apply For Bus',
             icon: <FaBus />,
             path: '/dashboard/applybus',
+            badge: null
+        },
+        {
+            name: 'My Applications',
+            icon: <FaBus />,
+            path: '/dashboard/myAppliedBus',
             badge: null
         },
     ];

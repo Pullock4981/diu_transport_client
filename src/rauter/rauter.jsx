@@ -12,6 +12,8 @@ import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
 import Schedules from "../Pages/Dashboard/Schedules/Schedules";
 import BusApplications from "../Pages/Dashboard/BusApplications/BusApplications";
 import Users from "../Pages/Dashboard/Users/Users";
+import UserHome from "../Pages/UserHome/UserHome";
+import MyAppliedBus from "../Pages/Dashboard/MyAppliedBus/MyAppliedBus";
 
 
 const router = createBrowserRouter([
@@ -43,6 +45,7 @@ const router = createBrowserRouter([
                 path: "/borrow-bus",
                 Component: BorrowBus
             },
+
             {
                 path: "/notice",
                 Component: Notice
@@ -56,7 +59,7 @@ const router = createBrowserRouter([
             //normal user routes
             {
                 path: "userhome",
-                element: <h1>User HOme</h1>
+                element: UserHome
             },
             {
 
@@ -76,6 +79,10 @@ const router = createBrowserRouter([
                 path: "applybus",
                 Component: BorrowBus
             },
+            {
+                path: "myAppliedBus",
+                Component: MyAppliedBus
+            },
 
             //admin only routes
             {
@@ -90,7 +97,7 @@ const router = createBrowserRouter([
             {
                 path: "schedule",
                 Component: Schedules
-            },         
+            },
             {
                 path: "applications",
                 Component: BusApplications
