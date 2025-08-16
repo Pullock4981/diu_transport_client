@@ -23,8 +23,8 @@ const Dashboard = () => {
     const location = useLocation();
 
     // for testing admin panel or user panel. running isadmin = true we will make our first admin.
-    // const isAdmin = true;
-    const isAdmin = false;
+    const isAdmin = true;
+    // const isAdmin = false;
 
 
     // Dashboard navigation items
