@@ -45,8 +45,8 @@ const Dashboard = () => {
         { name: "Live Tracking", icon: <FaMapMarkedAlt />, path: "/dashboard/transportLocation", badge: "Live" },
         { name: "Users", icon: <FaUsers />, path: "/dashboard/users" },
         { name: "Bus Applications", icon: <FaClipboardList />, path: "/dashboard/applications", badge: "3" },
-        { name: "Analytics", icon: <FaChartBar />, path: "/dashboard/analytics" },
-        { name: "Notices", icon: <FaBell />, path: "/dashboard/notices", badge: "5" },
+        // { name: "Analytics", icon: <FaChartBar />, path: "/dashboard/analytics" },
+        { name: "Add Notice", icon: <FaBell />, path: "/dashboard/notices", badge: "5" },
     ];
 
     // User nav items
